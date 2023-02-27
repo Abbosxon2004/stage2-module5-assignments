@@ -3,6 +3,7 @@ package assignments;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Scanner;
 
 import assignments.annotations.FullNameProcessorGeneratorAnnotation;
@@ -16,18 +17,18 @@ import lombok.Setter;
 public class LocalProcessor {
     private String processorName;
     private Long period = 10000000000000L;
-    protected String ProcessorVersion;
-    private Integer valueofCheap;
-    Scanner informationscanner;
-    static LinkedList<String> stringArrayList = new LinkedList<>();
+    private String processorVersion;
+    private Integer valueOfCheap;
+    private Scanner informationscanner;
+    private LinkedList<String> stringArrayList = new LinkedList<>();
 
-    public LocalProcessor(String processorName, Long period, String processorVersion, Integer valueOfCheap,
-                          Scanner informationscanner, LinkedList<String> stringArrayList) {
+    public LocalProcessor(String processorName, long period, String processorVersion, Integer valueOfCheap,
+                          Scanner informationScanner, LinkedList<String> stringArrayList) {
         this.processorName = processorName;
         this.period = period;
-        ProcessorVersion = processorVersion;
-        this.valueofCheap = valueOfCheap;
-        this.informationscanner = informationscanner;
+        this.processorVersion = processorVersion;
+        this.valueOfCheap = valueOfCheap;
+        this.informationscanner = informationScanner;
         this.stringArrayList = stringArrayList;
     }
 
@@ -35,27 +36,38 @@ public class LocalProcessor {
     }
 
     @ListIteratorAnnotation
-    public void listiterator(LinkedList<String> stringList) {
-        stringArrayList = new LinkedList<>(stringList);
-        for (int i = 0; i < period; i++) {
-            System.out.println(stringArrayList.get(i).hashCode());
+    public void listIterator(LinkedList<String> stringList) {
+//        stringArrayList = new LinkedList<>(stringList);
+//        for (int i = 0; i < period; i++) {
+//            System.out.println(stringArrayList.get(i).hashCode());
+//        }
+        ListIterator<String> iterator = stringList.listIterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next().hashCode());
         }
     }
 
     @FullNameProcessorGeneratorAnnotation
-    public String fullnameProcessorgenerator(LinkedList<String> stringList) {
-        for (int i = 0; i < stringArrayList.size(); i++) {
-            processorName+=stringList.get(i)+' ';
+    public String fullNameProcessorGenerator() {
+//        for (int i = 0; i < stringArrayList.size(); i++) {
+//            processorName+=stringList.get(i)+' ';
+//        }
+//        return processorName;
+        StringBuilder builder = new StringBuilder();
+        for (String str : stringArrayList) {
+            builder.append(str).append(' ');
         }
+        processorName = builder.toString();
         return processorName;
     }
 
     @ReadFullProcessorNameAnnotation
-    public void readfullprocessorname(File file) throws FileNotFoundException {
-            informationscanner = new Scanner(file);
-            while (informationscanner.hasNext()) {
-                ProcessorVersion+= informationscanner.nextLine();
-            }
-
+    public void readFullProcessorName(File file) throws FileNotFoundException {
+        informationscanner = new Scanner(file);
+        StringBuilder builder = new StringBuilder();
+        while (informationscanner.hasNextLine()) {
+            builder.append(informationscanner.nextLine());
+        }
+        processorVersion = builder.toString();
     }
 }
